@@ -8,7 +8,9 @@ class socketCtrl
 {
 	public:
 		socketCtrl(int port, int connections);
+		SOCKET acceptNew();
 
+	private:
 		SOCKET s;
 };
 

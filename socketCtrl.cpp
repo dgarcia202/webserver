@@ -7,10 +7,10 @@
 
 using namespace std;
 
-socketCtrl::socketCtrl(int port, int connection)
-{
-	logger l = logger();
+logger l = logger();
 
+socketCtrl::socketCtrl(int port, int connections)
+{
 	WORD versionRequested;
 	WSADATA wsaData;
 
@@ -53,4 +53,26 @@ socketCtrl::socketCtrl(int port, int connection)
     	l.fatal(STR("Change to non-blocking failed (error:" << WSAGetLastError()  << ")"));
     	throw "SOCKET_ERROR";
     }
+
+    // binding
+    if (bind(s, (sockaddr *)&address, sizeof(sockaddr_in)) == SOCKET_ERROR) 
+    {
+    	closesocket(s);
+    	l.fatal(STR("Failed socket bind (error:" << WSAGetLastError()  << ")"));
+    	throw "SOCKET_ERROR";
+	}
+
+	listen(s, connections);
+}
+
+SOCKET socketCtrl::acceptNew()
+{
+	SOCKET newSock = accept(s, 0, 0);
+	if (newSock == INVALID_SOCKET)
+	{
+		l.fatal(STR("Open accepted TCP socket failed! (error:" << WSAGetLastError() << ")"));
+		throw "INVALID_SOCKET";
+	}
+
+	return newSock;
 }

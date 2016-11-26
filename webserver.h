@@ -23,6 +23,7 @@ class webserver
 		webserver(unsigned int port, void (*handler)(httpRequest*));
 
 	private:
+		unsigned __stdcall requestProcessor(void *pScket);
 		void (*requestHandler)(httpRequest*);
 };
 
