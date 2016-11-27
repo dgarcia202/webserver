@@ -13,30 +13,34 @@ using namespace std;
 unsigned DynWS::Request(void *pScket)
 {
 	Socket s = *(reinterpret_cast<Socket*>(pScket));
-/*
-	HttpRequest r;
-	r.Method = "X4344X";
 
-	requestHandler(&r);
-	*/
+	HttpRequest request;
+	HttpResponse response;
 
 	while (true)
 	{
 		string line = s.ReceiveLine();
 
-		if (line == "")
+		if (line.empty())
 		{
 			break;
 		}
 
-		l.Con(">>>" + line);
+    	unsigned int pos_cr_lf = line.find_first_of("\x0a\x0d");
+    	if (pos_cr_lf == 0) break;
+
+		l.Con(STR(">>>" << "(" << line.length() << ")" << line));
 	}
 
 	l.Con("+++ answering a fake OK");
 
+	request.Method = "GET";
+	requestHandler(&request, &response);
+
 	s.SendBytes("HTTP/1.1 ");
-	s.SendLine("200 OK");
+	s.SendLine(response.Status);
 	s.SendLine("");
+	s.SendLine(response.Body);
 	s.Close();
 
 	return 0;

@@ -21,7 +21,13 @@ class DynWS
 			string Method;
 		};
 
-		typedef void (* RequestHandler)(HttpRequest*);
+		struct HttpResponse
+		{
+			string Status;
+			string Body;
+		};
+
+		typedef void (* RequestHandler)(HttpRequest*, HttpResponse*);
 		DynWS(unsigned int port, RequestHandler);
 
 	private:
