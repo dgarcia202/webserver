@@ -13,16 +13,19 @@ using namespace std;
 
 typedef string WL_LEVEL;
 
-class logger 
+class Logger 
 {
+
 public:
-	void debug(string message);
-	void info(string message);
-	void error(string message);
-	void fatal(string message);
+	void Debug(string message);
+	void Info(string message);
+	void Error(string message);
+	void Fatal(string message);
+	void Con(string mwessage);
 
 protected:
 	void log(WL_LEVEL level, string message);
+	
 };
 
 #endif

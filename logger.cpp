@@ -2,31 +2,36 @@
 #include <string>
 
 #include "logger.h"
-#include "webserver.h"
+#include "DynWS.h"
 
 using namespace std;
 
-void logger::log(WL_LEVEL level, string message)
+void Logger::log(WL_LEVEL level, string message)
 {
 	cout << level << ": " << message << NEWLINE;
 }
 
-void logger::debug(string message)
+void Logger::Debug(string message)
 {
 	log(WL_DEBUG, message);
 }
 
-void logger::info(string message)
+void Logger::Info(string message)
 {
 	log(WL_INFO, message);
 }
 
-void logger::error(string message)
+void Logger::Error(string message)
 {
 	log(WL_ERROR, message);
 }
 
-void logger::fatal(string message)
+void Logger::Fatal(string message)
 {
 	log(WL_FATAL, message);
+}
+
+void Logger::Con(string message)
+{
+	cout << message << NEWLINE;
 }

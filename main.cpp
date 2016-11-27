@@ -1,15 +1,15 @@
 #include <iostream>
 
-#include "webserver.h"
+#include "DynWS.h"
 
 using namespace std;
 
-void handler(webserver::httpRequest *request)
+void handler(DynWS::HttpRequest *request)
 {
-	cout << request->method;
+	cout << request->Method;
 }
 
 int main() 
 {
-	webserver(8886, &handler);
+	DynWS(8886, &handler);
 }
