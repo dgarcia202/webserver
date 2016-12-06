@@ -70,17 +70,17 @@ SocketServer::SocketServer(int port, int connections)
 
 	if (err != 0)
 	{
-		l.Fatal(STR("WSAStartup failed (error:" << err << ")"));
+		l.fatal(STR("WSAStartup failed (error:" << err << ")"));
 		throw "SA_STARTUP_FAILED";
 	}
 	else
 	{
-		l.Info(STR("version: " << wsaData.wVersion));
-		l.Info(STR("high version: " << wsaData.szDescription));
-		l.Info(STR("description: " << wsaData.wHighVersion));
-		l.Info(STR("system status: " << wsaData.szSystemStatus));
-		l.Info(STR("max sockets: " << wsaData.iMaxSockets));
-		l.Info(STR("max UDG dg:" << wsaData.iMaxUdpDg));
+		l.info(STR("version: " << wsaData.wVersion));
+		l.info(STR("high version: " << wsaData.szDescription));
+		l.info(STR("description: " << wsaData.wHighVersion));
+		l.info(STR("system status: " << wsaData.szSystemStatus));
+		l.info(STR("max sockets: " << wsaData.iMaxSockets));
+		l.info(STR("max UDG dg:" << wsaData.iMaxUdpDg));
 	}
 
 	sockaddr_in address;
@@ -92,7 +92,7 @@ SocketServer::SocketServer(int port, int connections)
 	s = socket(AF_INET, SOCK_STREAM, 0);
 	if (s == INVALID_SOCKET)
 	{
-		l.Fatal(STR("Open TCP socket failed! (error:" << WSAGetLastError() << ")"));
+		l.fatal(STR("Open TCP socket failed! (error:" << WSAGetLastError() << ")"));
 		throw "INVALID_SOCKET";
 	}
 
@@ -101,7 +101,7 @@ SocketServer::SocketServer(int port, int connections)
     err = ioctlsocket(s, FIONBIO, &arg);
     if (err == SOCKET_ERROR)
     {
-    	l.Fatal(STR("Change to non-blocking failed (error:" << WSAGetLastError()  << ")"));
+    	l.fatal(STR("Change to non-blocking failed (error:" << WSAGetLastError()  << ")"));
     	throw "SOCKET_ERROR";
     }
 
@@ -109,7 +109,7 @@ SocketServer::SocketServer(int port, int connections)
     if (bind(s, (sockaddr *)&address, sizeof(sockaddr_in)) == SOCKET_ERROR) 
     {
     	closesocket(s);
-    	l.Fatal(STR("Failed socket bind (error:" << WSAGetLastError()  << ")"));
+    	l.fatal(STR("Failed socket bind (error:" << WSAGetLastError()  << ")"));
     	throw "SOCKET_ERROR";
 	}
 
@@ -128,7 +128,7 @@ Socket *SocketServer::Accept()
 		}
 		else
 		{
-			l.Fatal(STR("Open accepted TCP socket failed! (error:" << err << ")"));
+			l.fatal(STR("Open accepted TCP socket failed! (error:" << err << ")"));
 			throw "INVALID_SOCKET";			
 		}
 	}

@@ -17,11 +17,10 @@ class Logger
 {
 
 public:
-	void Debug(string message);
-	void Info(string message);
-	void Error(string message);
-	void Fatal(string message);
-	void Con(string mwessage);
+	void debug(string message);
+	void info(string message);
+	void error(string message);
+	void fatal(string message);
 
 protected:
 	void log(WL_LEVEL level, string message);

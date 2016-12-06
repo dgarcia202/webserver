@@ -1,5 +1,14 @@
+CC=g++
+CFLAGS=-g -Wall -pedantic
+SRC=main.cpp dynws.cpp socket.cpp logger.cpp
+EXE=dynws.exe
+ODIR=.\bin
+
 all:
-	g++ -g -Wall -pedantic main.cpp dynws.cpp socket.cpp logger.cpp -o dynws.exe -lws2_32
+	$(CC) $(CFLAGS) $(SRC) -o $(ODIR)\$(EXE) -lws2_32
+
+run:
+	$(ODIR)\$(EXE)
 
 clean:
-	rm DynWS.exe	
+	del /F /Q $(ODIR)\$(EXE)

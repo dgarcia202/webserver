@@ -21,18 +21,15 @@ unsigned DynWS::Request(void *pScket)
 	{
 		string line = s.ReceiveLine();
 
-		if (line.empty())
+		if (line.empty() || line.find_first_of("\x0a\x0d") == 0)
 		{
 			break;
 		}
 
-    	unsigned int pos_cr_lf = line.find_first_of("\x0a\x0d");
-    	if (pos_cr_lf == 0) break;
-
-		l.Con(STR(">>>" << "(" << line.length() << ")" << line));
+		l.debug(STR(">>>" << "(" << line.length() << ")" << line));
 	}
 
-	l.Con("+++ answering a fake OK");
+	l.debug("+++ answering a fake OK");
 
 	request.Method = "GET";
 	requestHandler(&request, &response);
@@ -51,7 +48,7 @@ DynWS::DynWS(unsigned int port, RequestHandler handlerFunc)
 	requestHandler = handlerFunc;
 	SocketServer sockSvr(port, 5);
 
-	l.Con(STR("listening on port " << port));
+	l.info(STR("listening on port " << port));
 	
 	while(true)
 	{
