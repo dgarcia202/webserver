@@ -50,7 +50,7 @@ void DynWS::Shutdown()
 	}
 }
 
-DynWS::DynWS(unsigned int port, RequestHandler handlerFunc)
+void DynWS::Start(unsigned int port, RequestHandler handlerFunc)
 {
 	requestHandler = handlerFunc;
 	socketServer = new SocketServer(port, 5);
@@ -71,19 +71,8 @@ DynWS::DynWS(unsigned int port, RequestHandler handlerFunc)
 	}
 }
 
-DynWS::DynWS(const DynWS &o)
+DynWS::DynWS()
 {
-	requestHandler = o.requestHandler;
-	l = o.l;
-	socketServer = o.socketServer;
-}
-
-DynWS& DynWS::operator =(DynWS &o)
-{
-	requestHandler = o.requestHandler;
-	l = o.l;
-	socketServer = o.socketServer;	
-	return *this;
 }
 
 DynWS::~DynWS()

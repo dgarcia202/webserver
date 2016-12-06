@@ -30,10 +30,10 @@ class DynWS
 
 		typedef void (* RequestHandler)(HttpRequest*, HttpResponse*);
 		DynWS(unsigned int , RequestHandler);
-		DynWS(const DynWS&);
-		DynWS& operator=(DynWS&);
+		DynWS();
 		~DynWS();
 
+		void Start(unsigned int, RequestHandler);
 		void Shutdown();
 
 	private:

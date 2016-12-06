@@ -152,4 +152,6 @@ void SocketServer::Close()
 {
 	l.debug("Closing socket server");
 	closesocket(s);
+
+	WSACleanup();
 }

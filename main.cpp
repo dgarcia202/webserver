@@ -6,15 +6,13 @@
 
 using namespace std;
 
-DynWS *dynWs;
+DynWS server;
 
 void signalHandler(int signal)
 {
-//	delete dynWs;
-	dynWs->Shutdown();
-	delete dynWs;
-	
-	cout << "bye!";
+	server.Shutdown();	
+
+	cout << "bye!" << NEWLINE;
 	exit(signal);
 }
 
@@ -28,5 +26,5 @@ int main()
 {
 	signal(SIGINT, signalHandler);
 
-	dynWs = new DynWS(8886, &requestHandler);
+	server.Start(8886, &requestHandler);
 }
