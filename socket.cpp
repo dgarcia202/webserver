@@ -8,14 +8,21 @@
 using namespace std;
 
 Logger SocketServer::l = Logger();
+Logger Socket::l = Logger();
 
 Socket::Socket(SOCKET s)
 {
 	this->s = s;
 }
 
+Socket::~Socket()
+{
+	Close();
+}
+
 void Socket::Close()
 {
+	l.debug("Closing socket");
 	closesocket(s);
 }
 
@@ -75,12 +82,12 @@ SocketServer::SocketServer(int port, int connections)
 	}
 	else
 	{
-		l.info(STR("version: " << wsaData.wVersion));
-		l.info(STR("high version: " << wsaData.szDescription));
-		l.info(STR("description: " << wsaData.wHighVersion));
-		l.info(STR("system status: " << wsaData.szSystemStatus));
-		l.info(STR("max sockets: " << wsaData.iMaxSockets));
-		l.info(STR("max UDG dg:" << wsaData.iMaxUdpDg));
+		l.debug(STR("version: " << wsaData.wVersion));
+		l.debug(STR("high version: " << wsaData.szDescription));
+		l.debug(STR("description: " << wsaData.wHighVersion));
+		l.debug(STR("system status: " << wsaData.szSystemStatus));
+		l.debug(STR("max sockets: " << wsaData.iMaxSockets));
+		l.debug(STR("max UDG dg:" << wsaData.iMaxUdpDg));
 	}
 
 	sockaddr_in address;
@@ -116,6 +123,11 @@ SocketServer::SocketServer(int port, int connections)
 	listen(s, connections);
 }
 
+SocketServer::~SocketServer()
+{
+	Close();
+}
+
 Socket *SocketServer::Accept()
 {
 	SOCKET newSock = accept(s, 0, 0);
@@ -134,4 +146,10 @@ Socket *SocketServer::Accept()
 	}
 
 	return new Socket(newSock);
+}
+
+void SocketServer::Close()
+{
+	l.debug("Closing socket server");
+	closesocket(s);
 }

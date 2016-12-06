@@ -6,6 +6,7 @@
 #include <sstream>
 
 #include "logger.h"
+#include "socket.h"
 
 using namespace std;
 
@@ -28,12 +29,19 @@ class DynWS
 		};
 
 		typedef void (* RequestHandler)(HttpRequest*, HttpResponse*);
-		DynWS(unsigned int port, RequestHandler);
+		DynWS(unsigned int , RequestHandler);
+		DynWS(const DynWS&);
+		DynWS& operator=(DynWS&);
+		~DynWS();
+
+		void Shutdown();
 
 	private:
 		static RequestHandler requestHandler;
 		static Logger l;
-		static unsigned __stdcall Request(void *pScket);
+		static unsigned __stdcall Request(void *);
+
+		SocketServer *socketServer;
 };
 
 #endif

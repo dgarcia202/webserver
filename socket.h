@@ -13,15 +13,14 @@ class Socket
 {
 public:
 	Socket(SOCKET s);
-	//virtual ~Socket();
+	~Socket();
 	string ReceiveLine();
 	void SendLine(string);
 	void SendBytes(const string&);
 	void Close();
 
-protected:
-	
 private:
+	static Logger l;
 	SOCKET s;
 };
 
@@ -29,7 +28,9 @@ class SocketServer
 {
 public:
 	SocketServer(int, int);
+	~SocketServer();
 	Socket *Accept();
+	void Close();
 
 private:
 	static Logger l;

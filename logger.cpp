@@ -8,12 +8,22 @@ using namespace std;
 
 void Logger::log(WL_LEVEL level, string message)
 {
-	cout << level << ": " << message << NEWLINE;
+	cout << message << NEWLINE;
+}
+
+void Logger::logBytes(WL_LEVEL level, string message)
+{
+	cout << message;
 }
 
 void Logger::debug(string message)
 {
 	log(WL_DEBUG, message);
+}
+
+void Logger::debugBytes(string message)
+{
+	logBytes(WL_DEBUG, message);
 }
 
 void Logger::info(string message)

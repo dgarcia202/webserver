@@ -18,12 +18,14 @@ class Logger
 
 public:
 	void debug(string message);
+	void debugBytes(string message);
 	void info(string message);
 	void error(string message);
 	void fatal(string message);
 
 protected:
 	void log(WL_LEVEL level, string message);
+	void logBytes(WL_LEVEL level, string message);
 	
 };
 

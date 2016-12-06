@@ -26,10 +26,8 @@ unsigned DynWS::Request(void *pScket)
 			break;
 		}
 
-		l.debug(STR(">>>" << "(" << line.length() << ")" << line));
+		l.debugBytes(STR(line));
 	}
-
-	l.debug("+++ answering a fake OK");
 
 	request.Method = "GET";
 	requestHandler(&request, &response);
@@ -43,16 +41,25 @@ unsigned DynWS::Request(void *pScket)
 	return 0;
 }
 
+void DynWS::Shutdown()
+{
+	l.info(STR("Shutting down..."));
+	if (socketServer)
+	{
+		delete socketServer;
+	}
+}
+
 DynWS::DynWS(unsigned int port, RequestHandler handlerFunc)
 {
 	requestHandler = handlerFunc;
-	SocketServer sockSvr(port, 5);
+	socketServer = new SocketServer(port, 5);
 
-	l.info(STR("listening on port " << port));
+	l.info(STR("listening on port " << port << "..."));
 	
 	while(true)
 	{
-		Socket *pScket = sockSvr.Accept();
+		Socket *pScket = socketServer->Accept();
 
 		if (pScket == NULL)
 		{
@@ -64,3 +71,26 @@ DynWS::DynWS(unsigned int port, RequestHandler handlerFunc)
 	}
 }
 
+DynWS::DynWS(const DynWS &o)
+{
+	requestHandler = o.requestHandler;
+	l = o.l;
+	socketServer = o.socketServer;
+}
+
+DynWS& DynWS::operator =(DynWS &o)
+{
+	requestHandler = o.requestHandler;
+	l = o.l;
+	socketServer = o.socketServer;	
+	return *this;
+}
+
+DynWS::~DynWS()
+{
+	l.info(STR("Shutting down..."));
+	if (socketServer)
+	{
+		delete socketServer;
+	}
+}
