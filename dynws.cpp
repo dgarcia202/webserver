@@ -1,4 +1,7 @@
 #include <iostream>
+#include <vector>
+#include <sstream>
+#include <iterator>
 #include <process.h>
 
 #include "socket.h"
@@ -7,6 +10,8 @@
 
 DynWS::RequestHandler DynWS::requestHandler = 0; 
 Logger DynWS::l = Logger();
+
+std::vector<std::string> str_split(std::string s, char delim);
 
 unsigned DynWS::Request(void *pScket)
 {
@@ -80,4 +85,18 @@ DynWS::~DynWS()
 	{
 		delete socketServer;
 	}
+}
+
+std::vector<std::string> str_split(std::string s, char delim)
+{
+	using namespace std;
+	
+	vector<string> tokens;
+	istringstream iss(s);
+	
+	copy(istream_iterator<string>(iss),
+			istream_iterator<string>(),
+			back_inserter(tokens));
+	
+	return tokens;
 }
