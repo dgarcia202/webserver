@@ -4,11 +4,10 @@
 
 #include <string>
 #include <sstream>
+#include <map>
 
 #include "logger.h"
 #include "socket.h"
-
-using namespace std;
 
 #define NEWLINE "\n"
 
@@ -19,13 +18,15 @@ class DynWS
 	public:
 		struct HttpRequest
 		{
-			string Method;
+			std::string Method;
+			std::map<std::string, std::string> headers;
 		};
 
 		struct HttpResponse
 		{
-			string Status;
-			string Body;
+			std::string Status;
+			std::map<std::string, std::string> headers;
+			std::string Body;
 		};
 
 		typedef void (* RequestHandler)(HttpRequest*, HttpResponse*);

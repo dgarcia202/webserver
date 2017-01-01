@@ -8,8 +8,6 @@
 DynWS::RequestHandler DynWS::requestHandler = 0; 
 Logger DynWS::l = Logger();
 
-using namespace std;
-
 unsigned DynWS::Request(void *pScket)
 {
 	Socket s = *(reinterpret_cast<Socket*>(pScket));
