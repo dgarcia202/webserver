@@ -11,7 +11,7 @@
 DynWS::RequestHandler DynWS::requestHandler = 0; 
 Logger DynWS::l = Logger();
 
-std::vector<std::string> str_split(std::string s, char delim);
+std::vector<std::string> StringSplit(std::string s, char delim);
 
 unsigned DynWS::Request(void *pScket)
 {
@@ -20,25 +20,34 @@ unsigned DynWS::Request(void *pScket)
 	HttpRequest request;
 	HttpResponse response;
 
+	int lines_count = 0;
 	while (true)
 	{
-		string line = s.ReceiveLine();
-
+		std::string line = s.ReceiveLine();
+		lines_count++;
+		
 		if (line.empty() || line.find_first_of("\x0a\x0d") == 0)
 		{
 			break;
 		}
 
+		if (lines_count == 1)
+		{
+			std::vector<std::string> pieces = StringSplit(line, ' ');
+			request.method = pieces[0];
+			request.uri = pieces[1];
+			request.http_version[2];
+		}
+		
 		l.debugBytes(STR(line));
 	}
 
-	request.Method = "GET";
 	requestHandler(&request, &response);
 
 	s.SendBytes("HTTP/1.1 ");
-	s.SendLine(response.Status);
+	s.SendLine(response.status);
 	s.SendLine("");
-	s.SendLine(response.Body);
+	s.SendLine(response.body);
 	s.Close();
 
 	return 0;
@@ -87,7 +96,7 @@ DynWS::~DynWS()
 	}
 }
 
-std::vector<std::string> str_split(std::string s, char delim)
+std::vector<std::string> StringSplit(std::string s, char delim)
 {
 	using namespace std;
 	

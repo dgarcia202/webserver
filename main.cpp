@@ -18,8 +18,12 @@ void signalHandler(int signal)
 
 void requestHandler(DynWS::HttpRequest *request, DynWS::HttpResponse *response)
 {
-	response->Status = "200 OK";
-	response->Body = "<h1>Hello World!!</h1>";
+	response->status = "200 OK";
+	response->body = STR("<h1>Hello World!!</h1>"
+								"<ul>"
+								"<li><b>Method</b>: " << request->method << "</li>"
+								"<li><b>URI</b>: " << request->uri << "</li>"
+								"</ul>");
 }
 
 int main() 

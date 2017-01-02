@@ -18,15 +18,17 @@ class DynWS
 	public:
 		struct HttpRequest
 		{
-			std::string Method;
+			std::string method;
+			std::string uri;
+			std::string http_version;
 			std::map<std::string, std::string> headers;
 		};
 
 		struct HttpResponse
 		{
-			std::string Status;
+			std::string status;
 			std::map<std::string, std::string> headers;
-			std::string Body;
+			std::string body;
 		};
 
 		typedef void (* RequestHandler)(HttpRequest*, HttpResponse*);
