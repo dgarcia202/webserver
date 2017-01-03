@@ -7,8 +7,8 @@
 
 using namespace std;
 
-//DynWS server;
-/*
+DynWS server;
+
 void signalHandler(int signal)
 {
 	server.Shutdown();	
@@ -16,7 +16,7 @@ void signalHandler(int signal)
 	cout << "bye!" << NEWLINE;
 	exit(signal);
 }
-*/
+
 void requestHandler(DynWS::HttpRequest *request, DynWS::HttpResponse *response)
 {
 	response->status = "200 OK";
@@ -31,13 +31,7 @@ void requestHandler(DynWS::HttpRequest *request, DynWS::HttpResponse *response)
 
 int main() 
 {
-	string r = "EUOFNEBGUO<>";
-	to_lower(r);
-	cout << r;
-
-	/*
 	signal(SIGINT, signalHandler);
 
 	server.Start(8886, &requestHandler);
-	*/
 }

@@ -9,11 +9,18 @@
 
 #define STR(x) static_cast<ostringstream&>(ostringstream() << dec << x).str()
 
-
-void ltrim(std::string &s);
-void rtrim(std::string &s);
-void trim(std::string &s);
-void to_upper(std::string &s);
-void to_lower(std::string &s);
+namespace strtools
+{
+	void ltrim(std::string &s);
+	void rtrim(std::string &s);
+	void trim(std::string &s);
+	void toupper(std::string &s);
+	void tolower(std::string &s);
+	std::string ltrim_cp(std::string s);
+	std::string rtrim_cp(std::string s);
+	std::string trim_cp(std::string s);
+	std::string toupper_cp(std::string s);
+	std::string tolower_cp(std::string s);
+}
 
 #endif
