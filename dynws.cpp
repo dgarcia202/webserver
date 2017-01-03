@@ -7,6 +7,7 @@
 #include "socket.h"
 #include "dynws.h"
 #include "logger.h"
+#include "stringtools.h"
 
 DynWS::RequestHandler DynWS::requestHandler = 0; 
 Logger DynWS::l = Logger();
@@ -15,6 +16,8 @@ std::vector<std::string> StringSplit(std::string s, char delim);
 
 unsigned DynWS::Request(void *pScket)
 {
+	using namespace strtools;
+
 	Socket s = *(reinterpret_cast<Socket*>(pScket));
 
 	HttpRequest request;
@@ -36,11 +39,11 @@ unsigned DynWS::Request(void *pScket)
 			std::vector<std::string> pieces = StringSplit(line, ' ');
 			request.method = pieces[0];
 			request.uri = pieces[1];
-			request.http_version[2];
+			request.http_version = pieces[2];
 		}
 		else if (lines_count == 2)
 		{
-			request.host = line.substr(line.find(":"));
+			request.host = trim_cp(line.substr(line.find(":") + 1));
 		}
 		
 		l.debugBytes(STR(line));
