@@ -56,6 +56,8 @@ unsigned DynWS::Request(void *pScket)
 void DynWS::Shutdown()
 {
 	l.info(STR("Shutting down..."));
+	running_ = false;
+	
 	if (socketServer)
 	{
 		delete socketServer;
@@ -68,8 +70,9 @@ void DynWS::Start(unsigned int port, RequestHandler handlerFunc)
 	socketServer = new SocketServer(port, 5);
 
 	l.info(STR("listening on port " << port << "..."));
+	running_ = true;
 	
-	while(true)
+	while(running_)
 	{
 		Socket *pScket = socketServer->Accept();
 
@@ -85,6 +88,7 @@ void DynWS::Start(unsigned int port, RequestHandler handlerFunc)
 
 DynWS::DynWS()
 {
+	running_ = false;
 }
 
 DynWS::~DynWS()

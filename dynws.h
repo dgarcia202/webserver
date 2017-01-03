@@ -45,6 +45,7 @@ class DynWS
 		static unsigned __stdcall Request(void *);
 
 		SocketServer *socketServer;
+		bool running_;
 };
 
 #endif
