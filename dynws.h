@@ -3,15 +3,11 @@
 #define __DYNWS_H__
 
 #include <string>
-#include <sstream>
 #include <map>
 
 #include "logger.h"
 #include "socket.h"
-
-#define NEWLINE "\n"
-
-#define STR(x) static_cast<ostringstream&>(ostringstream() << dec << x).str()
+#include "stringtools.h"
 
 class DynWS
 {
@@ -21,6 +17,7 @@ class DynWS
 			std::string method;
 			std::string uri;
 			std::string http_version;
+			std::string host;
 			std::map<std::string, std::string> headers;
 		};
 

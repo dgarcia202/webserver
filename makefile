@@ -1,6 +1,6 @@
 CC=g++
 CFLAGS=-g -Wall -pedantic
-SRC=main.cpp dynws.cpp socket.cpp logger.cpp
+SRC=main.cpp dynws.cpp socket.cpp logger.cpp stringtools.cpp
 EXE=dynws.exe
 ODIR=.\bin
 

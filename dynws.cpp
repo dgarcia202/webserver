@@ -38,6 +38,10 @@ unsigned DynWS::Request(void *pScket)
 			request.uri = pieces[1];
 			request.http_version[2];
 		}
+		else if (lines_count == 2)
+		{
+			request.host = line.substr(line.find(":"));
+		}
 		
 		l.debugBytes(STR(line));
 	}
@@ -57,7 +61,7 @@ void DynWS::Shutdown()
 {
 	l.info(STR("Shutting down..."));
 	running_ = false;
-	
+
 	if (socketServer)
 	{
 		delete socketServer;
