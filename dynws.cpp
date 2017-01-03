@@ -24,14 +24,28 @@ unsigned DynWS::Request(void *pScket)
 	HttpResponse response;
 
 	int lines_count = 0;
+	bool reading_body = false;
 	while (true)
 	{
-		std::string line = s.ReceiveLine();
+		std::string line = reading_body ? s.ReceiveBytes() : s.ReceiveLine();
 		lines_count++;
-		
+	
+	/*	
 		if (line.empty() || line.find_first_of("\x0a\x0d") == 0)
 		{
 			break;
+		}
+*/
+
+		if (reading_body && line.empty())
+		{
+			break;
+		}
+
+		if (line.find_first_of("\x0a\x0d") == 0)
+		{
+			reading_body = true;
+			continue;
 		}
 
 		if (lines_count == 1)
@@ -41,7 +55,7 @@ unsigned DynWS::Request(void *pScket)
 			request.uri = pieces[1];
 			request.http_version = pieces[2];
 		}
-		else
+		else if (!reading_body)
 		{
 			int separator_pos = line.find(":");
 			std::string key = trim_cp(line.substr(0, separator_pos));
@@ -54,6 +68,10 @@ unsigned DynWS::Request(void *pScket)
 			{
 				request.headers.insert(std::pair<std::string, std::string>(key, value));
 			}
+		}
+		else
+		{
+			request.body += line;
 		}
 		
 		l.debugBytes(STR(line));

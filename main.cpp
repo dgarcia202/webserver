@@ -31,18 +31,22 @@ void requestHandler(DynWS::HttpRequest *request, DynWS::HttpResponse *response)
 	response->body += "<h2>Headers</h2>"
 						"<ul>";
 
-	map<string, string>::iterator it;
+	map<string, string>::const_iterator it;
 	for (it = request->headers.begin(); it != request->headers.end(); ++it)
 	{
 		response->body += "<li>" + it->first + ": " + it->second + "</li>";
 	}
 
 	response->body += "</ul>";
+	if (!response->body.empty())
+	{
+		response->body += "<h2>Request content</h2>";
+		response->body += "<p>" + request->body + "</p>";
+	}
 }
 
 int main() 
 {
 	signal(SIGINT, signalHandler);
-
 	server.Start(8886, &requestHandler);
 }

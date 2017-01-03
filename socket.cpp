@@ -56,6 +56,43 @@ string Socket::ReceiveLine()
 	}
 }
 
+string Socket::ReceiveBytes()
+{
+	std::string ret;
+	char buf[1024];
+ 
+ 	for ( ; ; ) {
+  		u_long arg = 0;
+
+  		if (ioctlsocket(s, FIONREAD, &arg) != 0)
+  		{
+   			break;
+   		}
+
+  		if (arg == 0)
+  		{
+   			break;
+		}
+
+  		if (arg > 1024)
+  		{
+   			arg = 1024;
+		}
+
+  		int rv = recv (s, buf, arg, 0);
+  		if (rv <= 0)
+		{
+	   		break;
+		}
+
+  		std::string t;
+  		t.assign (buf, rv);
+  		ret += t;
+ 	}
+ 
+  	return ret;	
+}
+
 void Socket::SendLine(string line)
 {
 	line += NEWLINE;

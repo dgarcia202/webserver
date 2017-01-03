@@ -15,6 +15,7 @@ public:
 	Socket(SOCKET s);
 	~Socket();
 	string ReceiveLine();
+	string ReceiveBytes();
 	void SendLine(string);
 	void SendBytes(const string&);
 	void Close();
