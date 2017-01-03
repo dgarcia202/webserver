@@ -41,9 +41,19 @@ unsigned DynWS::Request(void *pScket)
 			request.uri = pieces[1];
 			request.http_version = pieces[2];
 		}
-		else if (lines_count == 2)
+		else
 		{
-			request.host = trim_cp(line.substr(line.find(":") + 1));
+			int separator_pos = line.find(":");
+			std::string key = trim_cp(line.substr(0, separator_pos));
+			std::string value = trim_cp(line.substr(separator_pos + 1));
+			if (toupper_cp(key) == "HOST")
+			{
+				request.host = value;
+			}
+			else
+			{
+				request.headers.insert(std::pair<std::string, std::string>(key, value));
+			}
 		}
 		
 		l.debugBytes(STR(line));
