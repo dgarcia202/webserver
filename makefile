@@ -1,20 +1,30 @@
 CC=@g++
 CFLAGS=-g -Wall -pedantic
-SRC=src/main.cpp src/dynws.cpp src/socket.cpp src/logger.cpp src/stringtools.cpp
-EXE=dynws.exe
-ODIR=./bin
 
-all:
-	@echo Building...
+SRCDIR=src
+ODIR=bin
+
+MODULES=main dynws socket logger stringtools
+EXE=dynws.exe
+
+OBJECTS=$(patsubst %,$(ODIR)/%.o,$(MODULES))
+
+all: $(OBJECTS)
+	@echo Building $(EXE)
+	$(CC) $(CFLAGS) $(OBJECTS) -o $(ODIR)\$(EXE) -lws2_32
+	@echo Build complete!!!
+
+$(OBJECTS): $(ODIR)/%.o: $(SRCDIR)/%.cpp
+	@echo Building $@
 	@mkdir -p $(ODIR)
-	$(CC) $(CFLAGS) $(SRC) -o $(ODIR)\$(EXE) -lws2_32
+	$(CC) -c $(CFLAGS) $< -o $@
 
 run:
-	@echo running program...
+	@echo Running program...
 	@$(ODIR)\$(EXE)
 
 clean:
 	@echo Cleaning...
-	@rm -f $(ODIR)/$(EXE) &> /dev/null
+	@rm -rf $(ODIR) &> /dev/null
 
-.PHONY: clean
+.PHONY: clean run
