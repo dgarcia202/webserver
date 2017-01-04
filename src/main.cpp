@@ -26,6 +26,8 @@ void requestHandler(DynWS::HttpRequest *request, DynWS::HttpResponse *response)
 						"<li><b>URI</b>: " + request->uri + "</li>"
 						"<li><b>HTTP Version</b>: " + request->http_version + "</li>"
 						"<li><b>Host</b>: " + request->host + "</li>"
+						"<li><b>Path</b>: " + request->path + "</li>"
+						"<li><b>Query string</b>: " + request->query_string + "</li>"
 						"</ul>";
 
 	response->body += "<h2>Headers</h2>"

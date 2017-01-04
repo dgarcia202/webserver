@@ -95,7 +95,7 @@ string Socket::ReceiveBytes()
 
 void Socket::SendLine(string line)
 {
-	line += NEWLINE;
+	line += STR(std::endl);
 	send(s, line.c_str(), line.length(), 0);
 }
 

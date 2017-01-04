@@ -18,6 +18,8 @@ class DynWS
 			std::string uri;
 			std::string http_version;
 			std::string host;
+			std::string path;
+			std::string query_string;
 			std::map<std::string, std::string> headers;
 
 			std::string body;
@@ -39,12 +41,13 @@ class DynWS
 		void Shutdown();
 
 	private:
-		static RequestHandler requestHandler;
-		static Logger l;
+		static RequestHandler request_handler_;
+		static Logger l_;
 		static unsigned __stdcall Request(void *);
 
-		SocketServer *socketServer;
+		SocketServer *socket_server_;
 		bool running_;
+		int hola_;
 };
 
 #endif

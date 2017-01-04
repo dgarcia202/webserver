@@ -1,4 +1,7 @@
 #include <string>
+#include <vector>
+#include <sstream>
+#include <iterator>
 #include <algorithm> 
 #include <functional> 
 #include <cctype>
@@ -75,4 +78,17 @@ namespace strtools
 		tolower(s);
 		return s;
 	}
+	
+	std::vector<std::string> strsplit(std::string s, char delim)
+	{
+		std::vector<std::string> tokens;
+		std::istringstream iss(s);
+		
+		copy(std::istream_iterator<std::string>(iss),
+				std::istream_iterator<std::string>(),
+				std::back_inserter(tokens));
+		
+		return tokens;
+	}
+	
 }	// namespace strtools

@@ -9,10 +9,8 @@
 #include "logger.h"
 #include "stringtools.h"
 
-DynWS::RequestHandler DynWS::requestHandler = 0; 
-Logger DynWS::l = Logger();
-
-std::vector<std::string> StringSplit(std::string s, char delim);
+DynWS::RequestHandler DynWS::request_handler_ = 0; 
+Logger DynWS::l_ = Logger();
 
 unsigned DynWS::Request(void *pScket)
 {
@@ -29,13 +27,6 @@ unsigned DynWS::Request(void *pScket)
 	{
 		std::string line = reading_body ? s.ReceiveBytes() : s.ReceiveLine();
 		lines_count++;
-	
-	/*	
-		if (line.empty() || line.find_first_of("\x0a\x0d") == 0)
-		{
-			break;
-		}
-*/
 
 		if (reading_body && line.empty())
 		{
@@ -50,10 +41,14 @@ unsigned DynWS::Request(void *pScket)
 
 		if (lines_count == 1)
 		{
-			std::vector<std::string> pieces = StringSplit(line, ' ');
+			std::vector<std::string> pieces = strsplit(line, ' ');
 			request.method = pieces[0];
 			request.uri = pieces[1];
 			request.http_version = pieces[2];
+			
+			int question_mark_pos = request.uri.find("?");
+			request.path = request.uri.substr(0, question_mark_pos);
+			request.query_string = request.uri.substr(question_mark_pos + 1);
 		}
 		else if (!reading_body)
 		{
@@ -74,10 +69,10 @@ unsigned DynWS::Request(void *pScket)
 			request.body += line;
 		}
 		
-		l.debugBytes(STR(line));
+		l_.debugBytes(STR(line));
 	}
 
-	requestHandler(&request, &response);
+	request_handler_(&request, &response);
 
 	s.SendBytes("HTTP/1.1 ");
 	s.SendLine(response.status);
@@ -90,26 +85,26 @@ unsigned DynWS::Request(void *pScket)
 
 void DynWS::Shutdown()
 {
-	l.info(STR("Shutting down..."));
+	l_.info(STR("Shutting down..."));
 	running_ = false;
 
-	if (socketServer)
+	if(socket_server_)
 	{
-		delete socketServer;
+		delete socket_server_;
 	}
 }
 
-void DynWS::Start(unsigned int port, RequestHandler handlerFunc)
+void DynWS::Start(unsigned int port, RequestHandler handler_func)
 {
-	requestHandler = handlerFunc;
-	socketServer = new SocketServer(port, 5);
+	request_handler_ = handler_func;
+	socket_server_ = new SocketServer(port, 5);
 
-	l.info(STR("listening on port " << port << "..."));
+	l_.info(STR("listening on port " << port << "..."));
 	running_ = true;
 	
 	while(running_)
 	{
-		Socket *pScket = socketServer->Accept();
+		Socket *pScket = socket_server_->Accept();
 
 		if (pScket == NULL)
 		{
@@ -128,23 +123,9 @@ DynWS::DynWS()
 
 DynWS::~DynWS()
 {
-	l.info(STR("Shutting down..."));
-	if (socketServer)
+	l_.info(STR("Shutting down..."));
+	if (socket_server_)
 	{
-		delete socketServer;
+		delete socket_server_;
 	}
-}
-
-std::vector<std::string> StringSplit(std::string s, char delim)
-{
-	using namespace std;
-	
-	vector<string> tokens;
-	istringstream iss(s);
-	
-	copy(istream_iterator<string>(iss),
-			istream_iterator<string>(),
-			back_inserter(tokens));
-	
-	return tokens;
 }

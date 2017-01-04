@@ -3,9 +3,8 @@
 #define __STRINGTOOLS_H__
 
 #include <string>
+#include <vector>
 #include <sstream>
-
-#define NEWLINE "\n"
 
 #define STR(x) static_cast<ostringstream&>(ostringstream() << dec << x).str()
 
@@ -16,6 +15,7 @@ namespace strtools
 	void trim(std::string &s);
 	void toupper(std::string &s);
 	void tolower(std::string &s);
+	std::vector<std::string> strsplit(std::string s, char delim);
 	std::string ltrim_cp(std::string s);
 	std::string rtrim_cp(std::string s);
 	std::string trim_cp(std::string s);
