@@ -1,14 +1,20 @@
-CC=g++
+CC=@g++
 CFLAGS=-g -Wall -pedantic
 SRC=src/main.cpp src/dynws.cpp src/socket.cpp src/logger.cpp src/stringtools.cpp
 EXE=dynws.exe
-ODIR=.\bin
+ODIR=./bin
 
 all:
+	@echo Building...
+	@mkdir -p $(ODIR)
 	$(CC) $(CFLAGS) $(SRC) -o $(ODIR)\$(EXE) -lws2_32
 
 run:
-	$(ODIR)\$(EXE)
+	@echo running program...
+	@$(ODIR)\$(EXE)
 
 clean:
-	del /F /Q $(ODIR)\$(EXE)
+	@echo Cleaning...
+	@rm -f $(ODIR)/$(EXE) &> /dev/null
+
+.PHONY: clean
