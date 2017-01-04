@@ -8,7 +8,7 @@ using namespace std;
 
 void Logger::log(WL_LEVEL level, string message)
 {
-	cout << message << NEWLINE;
+	cout << message << endl;
 }
 
 void Logger::logBytes(WL_LEVEL level, string message)
