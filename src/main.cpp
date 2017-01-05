@@ -2,12 +2,12 @@
 #include <csignal>
 #include <stdlib.h>
 
-#include "DynWS.h"
+#include "webserver.h"
 #include "stringtools.h"
 
 using namespace std;
 
-DynWS server;
+dynws::WebServer server;
 
 void signalHandler(int signal)
 {
@@ -17,7 +17,7 @@ void signalHandler(int signal)
 	exit(signal);
 }
 
-void requestHandler(DynWS::HttpRequest *request, DynWS::HttpResponse *response)
+void requestHandler(dynws::HttpRequest *request, dynws::HttpResponse *response)
 {
 	response->status = "200 OK";
 	response->body = "<h1>Hello World!!</h1>"
@@ -40,6 +40,7 @@ void requestHandler(DynWS::HttpRequest *request, DynWS::HttpResponse *response)
 	}
 
 	response->body += "</ul>";
+	
 	if (!response->body.empty())
 	{
 		response->body += "<h2>Request content</h2>";

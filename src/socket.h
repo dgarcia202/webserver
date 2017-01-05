@@ -9,33 +9,37 @@
 
 using namespace std;
 
-class Socket
+namespace dynws
 {
-public:
-	Socket(SOCKET s);
-	~Socket();
-	string ReceiveLine();
-	string ReceiveBytes();
-	void SendLine(string);
-	void SendBytes(const string&);
-	void Close();
+	class Socket
+	{
+		public:
+			Socket(SOCKET s);
+			~Socket();
+			string ReceiveLine();
+			string ReceiveBytes();
+			void SendLine(string);
+			void SendBytes(const string&);
+			void Close();
 
-private:
-	static Logger l;
-	SOCKET s;
-};
+		private:
+			static Logger l;
+			SOCKET s;
+		};
 
-class SocketServer 
-{
-public:
-	SocketServer(int, int);
-	~SocketServer();
-	Socket *Accept();
-	void Close();
+		class SocketServer 
+		{
+		public:
+			SocketServer(int, int);
+			~SocketServer();
+			Socket *Accept();
+			void Close();
 
-private:
-	static Logger l;
-	SOCKET s;
-};
+		private:
+			static Logger l;
+			SOCKET s;
+	};
+
+}	// namespace dynws
 
 #endif

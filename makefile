@@ -4,12 +4,14 @@ CFLAGS=-g -Wall -pedantic
 SRCDIR=src
 ODIR=bin
 
-MODULES=dynws socket logger stringtools
+MODULES=webserver socket logger stringtools
 EXE=dynws.exe
 
 OBJECTS=$(patsubst %,$(ODIR)/%.o,$(MODULES))
 
-all: $(OBJECTS)
+all: $(ODIR)\$(EXE)
+
+$(ODIR)\$(EXE): $(OBJECTS)
 	@echo Building $(ODIR)\$(EXE)
 	$(CC) $(CFLAGS) $(SRCDIR)/main.cpp $(OBJECTS) -o $(ODIR)\$(EXE) -lws2_32
 	@echo Build complete!!!
