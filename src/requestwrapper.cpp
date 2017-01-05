@@ -8,6 +8,52 @@ namespace dynws
 {
 	Logger RequestWrapper::l_ = Logger();
 
+	void RequestWrapper::ParseRequestHeadLine(HttpRequest &request, std::string line)
+	{
+		std::vector<std::string> pieces = strtools::strsplit(line, ' ');
+		request.method = pieces[0];
+		request.uri = pieces[1];
+		request.http_version = pieces[2];
+		
+		size_t question_mark_pos = request.uri.find("?");
+		if (question_mark_pos != std::string::npos)
+		{
+			request.query_string = request.uri.substr(question_mark_pos + 1);	
+		}
+		request.path = request.uri.substr(0, question_mark_pos);
+
+		ParseQueryString(request, request.query_string);
+	}
+
+	void RequestWrapper::ParseHeader(HttpRequest &request, std::string line)
+	{
+		size_t separator_pos = line.find(":");
+		std::string key = strtools::trim_cp(line.substr(0, separator_pos));
+		std::string value = strtools::trim_cp(line.substr(separator_pos + 1));
+		if (strtools::toupper_cp(key) == "HOST")
+		{
+			request.host = value;
+		}
+		else
+		{
+			request.headers.insert(std::pair<std::string, std::string>(key, value));
+		}		
+	}
+
+	void RequestWrapper::ParseQueryString(HttpRequest &request, std::string query_string)
+	{
+		// TODO: not implemented
+	}
+
+	void RequestWrapper::TransmitResponse(Socket &s, HttpResponse &response)
+	{
+		s.SendBytes("HTTP/1.1 ");
+		s.SendLine(response.status);
+		s.SendLine("");
+		s.SendLine(response.body);
+		s.Close();		
+	}
+
 	void RequestWrapper::Process(Socket &s, RequestHandler request_handler)
 	{
 		HttpRequest request;
@@ -33,31 +79,11 @@ namespace dynws
 
 			if (lines_count == 1)
 			{
-				std::vector<std::string> pieces = strtools::strsplit(line, ' ');
-				request.method = pieces[0];
-				request.uri = pieces[1];
-				request.http_version = pieces[2];
-				
-				size_t question_mark_pos = request.uri.find("?");
-				if (question_mark_pos != std::string::npos)
-				{
-					request.query_string = request.uri.substr(question_mark_pos + 1);	
-				}
-				request.path = request.uri.substr(0, question_mark_pos);
+				ParseRequestHeadLine(request, line);
 			}
 			else if (!reading_body)
 			{
-				size_t separator_pos = line.find(":");
-				std::string key = strtools::trim_cp(line.substr(0, separator_pos));
-				std::string value = strtools::trim_cp(line.substr(separator_pos + 1));
-				if (strtools::toupper_cp(key) == "HOST")
-				{
-					request.host = value;
-				}
-				else
-				{
-					request.headers.insert(std::pair<std::string, std::string>(key, value));
-				}
+				ParseHeader(request, line);
 			}
 			else
 			{
@@ -69,11 +95,7 @@ namespace dynws
 
 		request_handler(&request, &response);
 
-		s.SendBytes("HTTP/1.1 ");
-		s.SendLine(response.status);
-		s.SendLine("");
-		s.SendLine(response.body);
-		s.Close();
+		TransmitResponse(s, response);
 	}
 
 }	// namespece dynws

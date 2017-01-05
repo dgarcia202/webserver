@@ -8,10 +8,14 @@ namespace dynws
 	class RequestWrapper
 	{
 		public:
-			void Process(Socket &, RequestHandler);
+			void Process(Socket&, RequestHandler);
 
 		private:
 			static Logger l_;
+			void ParseRequestHeadLine(HttpRequest&, std::string);
+			void ParseHeader(HttpRequest&, std::string);
+			void ParseQueryString(HttpRequest&, std::string);
+			void TransmitResponse(Socket&, HttpResponse&);
 	};
 
 }	// namespace dynws
