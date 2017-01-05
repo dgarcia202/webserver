@@ -31,11 +31,12 @@ namespace dynws
 		std::string body;
 	};
 
+	typedef void (* RequestHandler)(HttpRequest*, HttpResponse*);
+	
 	class WebServer
 	{
 		public:
 
-			typedef void (* RequestHandler)(HttpRequest*, HttpResponse*);
 			WebServer(unsigned int , RequestHandler);
 			WebServer();
 			~WebServer();
@@ -51,7 +52,6 @@ namespace dynws
 
 			SocketServer *socket_server_;
 			bool running_;
-			int hola_;
 	};
 
 }	// namespace dynws

@@ -4,7 +4,7 @@ CFLAGS=-g -Wall -pedantic
 SRCDIR=src
 ODIR=bin
 
-MODULES=webserver socket logger stringtools
+MODULES=webserver socket requestwrapper logger stringtools
 EXE=dynws.exe
 
 OBJECTS=$(patsubst %,$(ODIR)/%.o,$(MODULES))

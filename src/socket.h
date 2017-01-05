@@ -1,6 +1,6 @@
 
-#ifndef __SOCKET_H__
-#define __SOCKET_H__
+#ifndef __DYNWS_SOCKET_H__
+#define __DYNWS_SOCKET_H__
 
 #include <string>
 #include <winsock2.h>
