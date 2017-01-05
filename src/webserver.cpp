@@ -34,9 +34,9 @@ namespace dynws
 		}
 	}
 
-	void WebServer::Start(unsigned int port, RequestHandler handler_func)
+	void WebServer::Start(unsigned int port, RequestHandler request_handler)
 	{
-		request_handler_ = handler_func;
+		request_handler_ = request_handler;
 		socket_server_ = new SocketServer(port, 5);
 
 		l_.info(STR("listening on port " << port << "..."));

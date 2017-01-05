@@ -93,7 +93,7 @@ namespace dynws
 			l_.debugBytes(STR(line));
 		}
 
-		request_handler(&request, &response);
+		request_handler(request, response);
 
 		TransmitResponse(s, response);
 	}
