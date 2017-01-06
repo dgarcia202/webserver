@@ -12,7 +12,7 @@ dynws::WebServer server;
 
 void signalHandler(int signal)
 {
-	server.Shutdown();
+	server.Stop();
 
 	cout << "bye!" << endl;
 	exit(signal);

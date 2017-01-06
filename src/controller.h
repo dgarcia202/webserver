@@ -29,14 +29,18 @@ namespace dynws
   class Controller
   {
   public:
+    virtual ~Controller() { }
+
     virtual void Action(HttpRequest&, HttpResponse&) = 0;
   };
 
   class ControllerFactory
   {
   public:
+    virtual ~ControllerFactory() { }
+
     virtual Controller *CreateIntance() = 0;
-  };  
+  };
 } // namespace dynws
 
 #endif

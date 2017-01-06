@@ -23,7 +23,7 @@ namespace dynws
 		~WebServer();
 
 		void Start(unsigned int);
-		void Shutdown();
+		void Stop();
 
 		static Router router_;
 

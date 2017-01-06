@@ -8,7 +8,7 @@ namespace dynws
 {
 	Logger RequestWrapper::l_ = Logger();
 
-	void RequestWrapper::ParseRequestHeadLine(HttpRequest &request, std::string line)
+	void RequestWrapper::ParseRequestHeadLine(HttpRequest &request, const std::string line)
 	{
 		std::vector<std::string> pieces = strtools::strsplit(line, ' ');
 		request.method = pieces[0];
@@ -40,18 +40,25 @@ namespace dynws
 		}
 	}
 
-	void RequestWrapper::ParseQueryString(HttpRequest &request, std::string query_string)
+	void RequestWrapper::ParseQueryString(HttpRequest &request, const std::string query_string)
 	{
 		// TODO: not implemented
 	}
 
-	void RequestWrapper::TransmitResponse(Socket &s, HttpResponse &response)
+	void RequestWrapper::TransmitResponse(Socket &s, const HttpResponse &response)
 	{
 		s.SendBytes("HTTP/1.1 ");
 		s.SendLine(response.status);
 		s.SendLine("");
 		s.SendLine(response.body);
 		s.Close();
+	}
+
+	void RequestWrapper::ExecuteControllerAction(HttpRequest &request, HttpResponse &response, Router &router)
+	{
+		Controller *ctrl = router.ResolveController(request.uri);
+		ctrl->Action(request, response);
+		delete ctrl;
 	}
 
 	void RequestWrapper::Process(Socket &s, Router &router)
@@ -93,9 +100,7 @@ namespace dynws
 			l_.debugBytes(STR(line));
 		}
 
-		Controller *ctrl = router.ResolveController(request.uri);
-		ctrl->Action(request, response);
-
+		ExecuteControllerAction(request, response, router);
 		TransmitResponse(s, response);
 	}
 

@@ -22,15 +22,10 @@ namespace dynws
 		return 0;
 	}
 
-	void WebServer::Shutdown()
+	void WebServer::Stop()
 	{
-		l_.info(STR("Shutting down..."));
+		l_.info(STR("stopping server..."));
 		running_ = false;
-
-		if(socket_server_)
-		{
-			delete socket_server_;
-		}
 	}
 
 	void WebServer::Start(unsigned int port)
@@ -61,7 +56,6 @@ namespace dynws
 
 	WebServer::~WebServer()
 	{
-		l_.info(STR("Shutting down..."));
 		if (socket_server_)
 		{
 			delete socket_server_;

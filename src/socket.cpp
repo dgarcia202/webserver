@@ -194,5 +194,4 @@ namespace dynws
 
 		WSACleanup();
 	}
-
 }	// namespace dynws

@@ -12,10 +12,11 @@ namespace dynws
 
 		private:
 			static Logger l_;
-			void ParseRequestHeadLine(HttpRequest&, std::string);
-			void ParseHeader(HttpRequest&, std::string);
-			void ParseQueryString(HttpRequest&, std::string);
-			void TransmitResponse(Socket&, HttpResponse&);
+			void ParseRequestHeadLine(HttpRequest&, const std::string);
+			void ParseHeader(HttpRequest&, const std::string);
+			void ParseQueryString(HttpRequest&, const std::string);
+			void ExecuteControllerAction(HttpRequest&, HttpResponse&, Router&);
+			void TransmitResponse(Socket&, const HttpResponse&);
 	};
 
 }	// namespace dynws
