@@ -1,5 +1,10 @@
 #include "webapp.h"
 
+dynws::Controller *HomeControllerFactory::CreateIntance()
+{
+	return new HomeController();
+}
+
 void HomeController::Action(dynws::HttpRequest &request, dynws::HttpResponse &response)
 {
 	response.status = "200 OK";

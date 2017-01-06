@@ -10,4 +10,10 @@ public:
 	void Action(dynws::HttpRequest&, dynws::HttpResponse&);
 };
 
+class HomeControllerFactory : public dynws::ControllerFactory
+{
+public:
+	dynws::Controller *CreateIntance();
+};
+
 #endif

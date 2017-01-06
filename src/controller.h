@@ -31,6 +31,12 @@ namespace dynws
   public:
     virtual void Action(HttpRequest&, HttpResponse&) = 0;
   };
+
+  class ControllerFactory
+  {
+  public:
+    virtual Controller *CreateIntance() = 0;
+  };  
 } // namespace dynws
 
 #endif
