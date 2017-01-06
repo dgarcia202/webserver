@@ -35,23 +35,23 @@ namespace dynws
 	
 	class WebServer
 	{
-		private:
+	private:
 
-			static RequestHandler request_handler_;
-			static Logger l_;
-			static unsigned __stdcall Request(void *);
+		static RequestHandler request_handler_;
+		static Logger l_;
+		static unsigned __stdcall Request(void *);
 
-			SocketServer *socket_server_;
-			bool running_;
-					
-		public:
+		SocketServer *socket_server_;
+		bool running_;
 
-			WebServer(unsigned int , RequestHandler);
-			WebServer();
-			~WebServer();
+	public:
 
-			void Start(unsigned int, RequestHandler);
-			void Shutdown();
+		WebServer(unsigned int , RequestHandler);
+		WebServer();
+		~WebServer();
+
+		void Start(unsigned int, RequestHandler);
+		void Shutdown();
 	};
 
 }	// namespace dynws
