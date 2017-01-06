@@ -8,7 +8,7 @@ namespace dynws
 	class RequestWrapper
 	{
 		public:
-			void Process(Socket&, RequestHandler);
+			void Process(Socket&, Router&);
 
 		private:
 			static Logger l_;

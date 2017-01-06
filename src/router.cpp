@@ -11,6 +11,11 @@ namespace dynws
 
   void Router::RegisterRoute(std::string pattern, Controller &handler)
   {
+    route_table_.insert(std::pair<std::string, Controller&>(pattern, handler));
+  }
+
+  Controller *ResolveController(std::string)
+  {
     // TODO: not implemented
   }
 } // namespace dynws

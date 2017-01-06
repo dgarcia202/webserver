@@ -4,12 +4,11 @@ SRCDIR=src
 ODIR=bin
 MODULES=webserver socket requestwrapper logger stringtools router webapp
 EXE=dynws.exe
-
 OBJECTS=$(patsubst %,$(ODIR)/%.o,$(MODULES))
 
 all: $(ODIR)\$(EXE)
 
-$(ODIR)\$(EXE): $(OBJECTS)
+$(ODIR)\$(EXE): $(OBJECTS) $(SRCDIR)/main.cpp
 	@echo Building $(ODIR)\$(EXE)
 	$(CC) $(CFLAGS) $(SRCDIR)/main.cpp $(OBJECTS) -o $(ODIR)\$(EXE) -lws2_32
 	@echo Build complete!!!

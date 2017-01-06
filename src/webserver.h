@@ -7,51 +7,32 @@
 
 #include "logger.h"
 #include "socket.h"
+#include "controller.h"
+#include "router.h"
 #include "stringtools.h"
 
 namespace dynws
 {
-	struct HttpRequest
-	{
-		std::string method;
-		std::string uri;
-		std::string http_version;
-		std::string host;
-		std::string path;
-		std::string query_string;
-		std::map<std::string, std::string> headers;
+	typedef void (Controller::*RequestHandler)(HttpRequest&, HttpResponse&);
 
-		std::string body;
-	};
-
-	struct HttpResponse
-	{
-		std::string status;
-		std::map<std::string, std::string> headers;
-		std::string body;
-	};
-
-	typedef void (* RequestHandler)(HttpRequest&, HttpResponse&);
-	
 	class WebServer
 	{
-	private:
-
-		static RequestHandler request_handler_;
-		static Logger l_;
-		static unsigned __stdcall Request(void *);
-
-		SocketServer *socket_server_;
-		bool running_;
-
 	public:
 
-		WebServer(unsigned int , RequestHandler);
 		WebServer();
 		~WebServer();
 
-		void Start(unsigned int, RequestHandler);
+		void Start(unsigned int);
 		void Shutdown();
+
+		static Router router_;
+
+	private:
+		static Logger l_;
+		static unsigned __stdcall Request(void *);
+
+		bool running_;
+		SocketServer *socket_server_;
 	};
 
 }	// namespace dynws

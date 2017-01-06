@@ -12,13 +12,13 @@
 
 namespace dynws
 {
-	RequestHandler WebServer::request_handler_ = 0;
 	Logger WebServer::l_;
+	Router WebServer::router_;
 
 	unsigned WebServer::Request(void *pScket)
 	{
 		RequestWrapper req_wrapper;
-		req_wrapper.Process(*(reinterpret_cast<Socket*>(pScket)), request_handler_);
+		req_wrapper.Process(*(reinterpret_cast<Socket*>(pScket)), router_);
 		return 0;
 	}
 
@@ -33,9 +33,8 @@ namespace dynws
 		}
 	}
 
-	void WebServer::Start(unsigned int port, RequestHandler request_handler)
+	void WebServer::Start(unsigned int port)
 	{
-		request_handler_ = request_handler;
 		socket_server_ = new SocketServer(port, 5);
 
 		l_.info(STR("listening on port " << port << "..."));

@@ -4,6 +4,7 @@
 
 #include "webserver.h"
 #include "stringtools.h"
+#include "webapp.h"
 
 using namespace std;
 
@@ -11,12 +12,13 @@ dynws::WebServer server;
 
 void signalHandler(int signal)
 {
-	server.Shutdown();	
+	server.Shutdown();
 
 	cout << "bye!" << endl;
 	exit(signal);
 }
 
+/*
 void requestHandler(dynws::HttpRequest &request, dynws::HttpResponse &response)
 {
 	response.status = "200 OK";
@@ -40,16 +42,21 @@ void requestHandler(dynws::HttpRequest &request, dynws::HttpResponse &response)
 	}
 
 	response.body += "</ul>";
-	
+
 	if (!response.body.empty())
 	{
 		response.body += "<h2>Request content</h2>";
 		response.body += "<p>" + request.body + "</p>";
 	}
-}
+}*/
 
-int main() 
+int main()
 {
 	signal(SIGINT, signalHandler);
-	server.Start(8886, &requestHandler);
+	// server.Start(8886, &requestHandler);
+
+	HomeController home_ctlr;
+	dynws::WebServer::router_.RegisterRoute("/", home_ctlr);
+
+	server.Start(8886);
 }

@@ -14,11 +14,11 @@ namespace dynws
 		request.method = pieces[0];
 		request.uri = pieces[1];
 		request.http_version = pieces[2];
-		
+
 		size_t question_mark_pos = request.uri.find("?");
 		if (question_mark_pos != std::string::npos)
 		{
-			request.query_string = request.uri.substr(question_mark_pos + 1);	
+			request.query_string = request.uri.substr(question_mark_pos + 1);
 		}
 		request.path = request.uri.substr(0, question_mark_pos);
 
@@ -37,7 +37,7 @@ namespace dynws
 		else
 		{
 			request.headers.insert(std::pair<std::string, std::string>(key, value));
-		}		
+		}
 	}
 
 	void RequestWrapper::ParseQueryString(HttpRequest &request, std::string query_string)
@@ -51,10 +51,10 @@ namespace dynws
 		s.SendLine(response.status);
 		s.SendLine("");
 		s.SendLine(response.body);
-		s.Close();		
+		s.Close();
 	}
 
-	void RequestWrapper::Process(Socket &s, RequestHandler request_handler)
+	void RequestWrapper::Process(Socket &s, Router &router)
 	{
 		HttpRequest request;
 		HttpResponse response;
@@ -89,11 +89,13 @@ namespace dynws
 			{
 				request.body += line;
 			}
-			
+
 			l_.debugBytes(STR(line));
 		}
 
-		request_handler(request, response);
+		// request_handler(request, response);
+		Controller *ctrl = router.ResolveController(request.uri);
+		ctrl->Action(request, response);
 
 		TransmitResponse(s, response);
 	}

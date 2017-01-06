@@ -17,6 +17,7 @@ namespace dynws
 
   public:
     void RegisterRoute(std::string, Controller&);
+    Controller *ResolveController(std::string);
   };
 } // namespace dynws
 
