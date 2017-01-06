@@ -1,5 +1,5 @@
 CC=g++
-CFLAGS=-g -Wall -pedantic
+CFLAGS=-g -Wall -pedantic -std=c++11
 SRCDIR=src
 ODIR=bin
 MODULES=webserver socket requestwrapper logger stringtools router webapp
