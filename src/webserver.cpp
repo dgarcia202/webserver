@@ -1,5 +1,4 @@
 #include <iostream>
-// #include <cstring>
 #include <vector>
 #include <sstream>
 #include <iterator>
@@ -11,9 +10,9 @@
 #include "logger.h"
 #include "stringtools.h"
 
-namespace dynws 
+namespace dynws
 {
-	RequestHandler WebServer::request_handler_ = 0; 
+	RequestHandler WebServer::request_handler_ = 0;
 	Logger WebServer::l_ = Logger();
 
 	unsigned WebServer::Request(void *pScket)
@@ -41,7 +40,7 @@ namespace dynws
 
 		l_.info(STR("listening on port " << port << "..."));
 		running_ = true;
-		
+
 		while(running_)
 		{
 			Socket *pScket = socket_server_->Accept();
