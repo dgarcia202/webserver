@@ -2,7 +2,7 @@ CC=g++
 CFLAGS=-g -Wall -pedantic
 SRCDIR=src
 ODIR=bin
-MODULES=webserver socket requestwrapper logger stringtools router
+MODULES=webserver socket requestwrapper logger stringtools router webapp
 EXE=dynws.exe
 
 OBJECTS=$(patsubst %,$(ODIR)/%.o,$(MODULES))

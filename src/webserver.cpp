@@ -13,7 +13,7 @@
 namespace dynws
 {
 	RequestHandler WebServer::request_handler_ = 0;
-	Logger WebServer::l_ = Logger();
+	Logger WebServer::l_;
 
 	unsigned WebServer::Request(void *pScket)
 	{

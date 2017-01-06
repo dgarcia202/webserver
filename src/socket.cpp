@@ -9,8 +9,8 @@ namespace dynws
 {
 	using namespace std;
 
-	Logger SocketServer::l = Logger();
-	Logger Socket::l = Logger();
+	Logger SocketServer::l;
+	Logger Socket::l;
 
 	Socket::Socket(SOCKET s)
 	{
@@ -62,7 +62,7 @@ namespace dynws
 	{
 		std::string ret;
 		char buf[1024];
-	 
+
 	 	for ( ; ; ) {
 	  		u_long arg = 0;
 
@@ -91,8 +91,8 @@ namespace dynws
 	  		t.assign (buf, rv);
 	  		ret += t;
 	 	}
-	 
-	  	return ret;	
+
+	  	return ret;
 	}
 
 	void Socket::SendLine(string line)
@@ -152,7 +152,7 @@ namespace dynws
 	    }
 
 	    // binding
-	    if (bind(s, (sockaddr *)&address, sizeof(sockaddr_in)) == SOCKET_ERROR) 
+	    if (bind(s, (sockaddr *)&address, sizeof(sockaddr_in)) == SOCKET_ERROR)
 	    {
 	    	closesocket(s);
 	    	l.fatal(STR("Failed socket bind (error:" << WSAGetLastError()  << ")"));
@@ -180,7 +180,7 @@ namespace dynws
 			else
 			{
 				l.fatal(STR("Open accepted TCP socket failed! (error:" << err << ")"));
-				throw "INVALID_SOCKET";			
+				throw "INVALID_SOCKET";
 			}
 		}
 

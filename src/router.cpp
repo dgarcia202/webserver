@@ -7,7 +7,7 @@
 
 namespace dynws
 {
-  Logger Router::l_ = Logger();
+  Logger Router::l_;
 
   void Router::RegisterRoute(std::string pattern, Controller &handler)
   {
