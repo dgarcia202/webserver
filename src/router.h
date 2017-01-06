@@ -13,10 +13,10 @@ namespace dynws
   {
   private:
     static Logger l_;
-    std::map<std::string, Controller&> route_table_;
+    std::map<std::string, Controller*> route_table_;
 
   public:
-    void RegisterRoute(std::string, Controller&);
+    void RegisterRoute(std::string, Controller*);
     Controller *ResolveController(std::string);
   };
 } // namespace dynws

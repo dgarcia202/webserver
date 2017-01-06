@@ -53,10 +53,9 @@ void requestHandler(dynws::HttpRequest &request, dynws::HttpResponse &response)
 int main()
 {
 	signal(SIGINT, signalHandler);
-	// server.Start(8886, &requestHandler);
 
 	HomeController home_ctlr;
-	dynws::WebServer::router_.RegisterRoute("/", home_ctlr);
+	dynws::WebServer::router_.RegisterRoute("/", &home_ctlr);
 
 	server.Start(8886);
 }

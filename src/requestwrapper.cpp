@@ -93,7 +93,6 @@ namespace dynws
 			l_.debugBytes(STR(line));
 		}
 
-		// request_handler(request, response);
 		Controller *ctrl = router.ResolveController(request.uri);
 		ctrl->Action(request, response);
 

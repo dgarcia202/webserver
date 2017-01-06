@@ -9,13 +9,14 @@ namespace dynws
 {
   Logger Router::l_;
 
-  void Router::RegisterRoute(std::string pattern, Controller &handler)
+  void Router::RegisterRoute(std::string pattern, Controller *ctrl_ptr)
   {
-    route_table_.insert(std::pair<std::string, Controller&>(pattern, handler));
+    route_table_.insert(std::pair<std::string, Controller*>(pattern, ctrl_ptr));
   }
 
-  Controller *ResolveController(std::string)
+  Controller *Router::ResolveController(std::string pattern)
   {
-    // TODO: not implemented
+    l_.debug("Router resolving URI " + pattern);
+    return route_table_[pattern];
   }
 } // namespace dynws
