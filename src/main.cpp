@@ -1,5 +1,6 @@
 #include <iostream>
 #include <csignal>
+#include <cstdlib>
 #include <stdlib.h>
 #include <string>
 #include <regex>
@@ -32,15 +33,15 @@ int main(int argc, char *argv[])
 	}
 
 	int port = 8886;
-	/*if (argc == 2)
+	if (argc == 2)
 	{
 		if (!IsPortNumber(std::string(argv[1])))
 		{
 			std::cerr << "error: incorrect argument format";
 			exit(1);
 		}
-		port = std::stoi(std::string(argv[1]));
-	}*/
+		port = atoi(argv[1]);
+	}
 
 	signal(SIGINT, signalHandler);
 
