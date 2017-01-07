@@ -41,11 +41,22 @@ namespace dynws
 		}
 	}
 
-	void RequestWrapper::ParseQueryString(HttpRequest &request, const std::string query_string)
-	{/*
+	void RequestWrapper::ParseQueryString(HttpRequest &request, const std::string uri)
+	{
+		std::string s = uri
 		std::smatch match;
-		std::regex expr("([^&]*)=([^&]*)");
-		std::regex_match(query_string, match, expr);*/
+		std::regex expr("[(\\?|\\&)]([^=]+)\\=([^&#]+)");
+		while(std::regex_search(s, match, expr))
+		{
+			auto it = std::next(m.cbegin());
+			std::string key = *it;
+			it = std::next(it);
+			std::string value = *it;
+
+			// TODO: insert in map
+
+			s = match.suffix();
+		}
 	}
 
 	void RequestWrapper::TransmitResponse(Socket &s, const HttpResponse &response)
