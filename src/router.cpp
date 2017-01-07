@@ -33,7 +33,6 @@ namespace dynws
         return factory->CreateIntance();
       }
     }
-
     return nullptr;
   }
 } // namespace dynws
