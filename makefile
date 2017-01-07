@@ -20,7 +20,7 @@ $(OBJECTS): $(ODIR)/%.o: $(SRCDIR)/%.cpp $(SRCDIR)/%.h
 
 run:
 	@echo Running program...
-	@$(ODIR)\$(EXE) 8899
+	@$(ODIR)\$(EXE)
 
 clean:
 	@echo Cleaning...

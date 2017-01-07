@@ -11,6 +11,8 @@
 #include "router.h"
 #include "stringtools.h"
 
+#define DEFAULT_PORT 8886
+
 namespace dynws
 {
 	typedef void (Controller::*RequestHandler)(HttpRequest&, HttpResponse&);

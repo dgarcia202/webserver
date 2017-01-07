@@ -11,7 +11,7 @@
 
 dynws::WebServer server;
 
-void signalHandler(int signal)
+void SignalHandler(int signal)
 {
 	server.Stop();
 	std::cout << "bye!" << std::endl;
@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
 		exit(1);
 	}
 
-	int port = 8886;
+	int port = DEFAULT_PORT;
 	if (argc == 2)
 	{
 		if (!IsPortNumber(std::string(argv[1])))
@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
 		port = atoi(argv[1]);
 	}
 
-	signal(SIGINT, signalHandler);
+	signal(SIGINT, SignalHandler);
 
 	HomeControllerFactory home_ctlr_factory;
 	dynws::WebServer::router_.RegisterRoute("^\\/$", &home_ctlr_factory);
