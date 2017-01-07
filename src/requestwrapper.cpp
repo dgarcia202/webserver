@@ -1,3 +1,5 @@
+#include <regex>
+
 #include "webserver.h"
 #include "requestwrapper.h"
 #include "socket.h"
@@ -40,10 +42,10 @@ namespace dynws
 	}
 
 	void RequestWrapper::ParseQueryString(HttpRequest &request, const std::string query_string)
-	{
+	{/*
 		std::smatch match;
-		std:regex expr("([^&]*)=([^&]*)");
-		atd::regex_match(query_string, match, expre);
+		std::regex expr("([^&]*)=([^&]*)");
+		std::regex_match(query_string, match, expr);*/
 	}
 
 	void RequestWrapper::TransmitResponse(Socket &s, const HttpResponse &response)

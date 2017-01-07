@@ -15,7 +15,7 @@ namespace dynws
     std::string path;
     std::string query_string;
     std::map<std::string, std::string> headers;
-    str::multimap<std::string, std::string> query_params;
+    std::multimap<std::string, std::string> query_params;
     std::string body;
   };
 

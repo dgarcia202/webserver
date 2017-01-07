@@ -4,14 +4,23 @@
 
 int main()
 {
-  std::string s("id=123&name=abcde");
-  std::regex expr("([^=])");
+  std::string s("/home?id=123&name=abcde");
+  std::regex expr("[(\\?|\\&)]([^=]+)\\=([^&#]+)");
+
+  // std::string s = "1526-5268-5552-1523";
+  // std::regex expr("(\\d{4}[- ]){3}\\d{4}");
+
   std::smatch m;
 
-  std::regex_match(s, m, expr);
-  std::cout << "Matches found " << m.size() << std::endl;
+  int match_counter = 0;
+  while(std::regex_search(s, m, expr))
+  {
+    match_counter++;
+    // std::cout << "Match found (" << match_counter << ") :" << m.size() << "---" << s << std::endl;
+    for (auto it = m.cbegin(); it != m.cend(); ++it) {
+      std::cout << "found ->" << *it << std::endl;
+    }
 
-  for (auto it = m.cbegin(); it != m.cend(); ++it) {
-    std::cout << "item ->" << *it << std::endl;
+    s = m.suffix();
   }
 }
