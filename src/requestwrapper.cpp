@@ -19,10 +19,9 @@ namespace dynws
 		if (question_mark_pos != std::string::npos)
 		{
 			request.query_string = request.uri.substr(question_mark_pos + 1);
+			ParseQueryString(request, request.query_string);
 		}
 		request.path = request.uri.substr(0, question_mark_pos);
-
-		ParseQueryString(request, request.query_string);
 	}
 
 	void RequestWrapper::ParseHeader(HttpRequest &request, std::string line)
@@ -42,7 +41,9 @@ namespace dynws
 
 	void RequestWrapper::ParseQueryString(HttpRequest &request, const std::string query_string)
 	{
-		// TODO: not implemented
+		std::smatch match;
+		std:regex expr("([^&]*)=([^&]*)");
+		atd::regex_match(query_string, match, expre);
 	}
 
 	void RequestWrapper::TransmitResponse(Socket &s, const HttpResponse &response)
