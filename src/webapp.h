@@ -16,4 +16,16 @@ public:
 	dynws::Controller *CreateIntance();
 };
 
+class QueryStringController : public dynws::Controller
+{
+public:
+	void Action(dynws::HttpRequest&, dynws::HttpResponse&);
+};
+
+class QueryStringControllerFactory : public dynws::ControllerFactory
+{
+public:
+	dynws::Controller *CreateIntance();
+};
+
 #endif

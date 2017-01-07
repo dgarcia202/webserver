@@ -21,12 +21,14 @@ namespace dynws
 
     for (auto it = route_table_.cbegin(); it != route_table_.cend(); ++it)
     {
+      l_.debug("Considering route " + it->first);
       std::regex expr(it->first);
       std::smatch match;
 
       std::regex_match(uri, match, expr);
       if (!match.empty())
       {
+        l_.debug("Matched with route " + it->first);
         ControllerFactory *factory = route_table_[it->first];
         return factory->CreateIntance();
       }

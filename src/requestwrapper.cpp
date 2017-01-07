@@ -8,7 +8,7 @@
 
 namespace dynws
 {
-	Logger RequestWrapper::l_ = Logger();
+	Logger RequestWrapper::l_;
 
 	void RequestWrapper::ParseRequestHeadLine(HttpRequest &request, const std::string line)
 	{
@@ -21,7 +21,7 @@ namespace dynws
 		if (question_mark_pos != std::string::npos)
 		{
 			request.query_string = request.uri.substr(question_mark_pos + 1);
-			ParseQueryString(request, request.query_string);
+			ParseQueryString(request, request.uri);
 		}
 		request.path = request.uri.substr(0, question_mark_pos);
 	}
@@ -43,18 +43,17 @@ namespace dynws
 
 	void RequestWrapper::ParseQueryString(HttpRequest &request, const std::string uri)
 	{
-		std::string s = uri
+		std::string s = uri;
 		std::smatch match;
 		std::regex expr("[(\\?|\\&)]([^=]+)\\=([^&#]+)");
 		while(std::regex_search(s, match, expr))
 		{
-			auto it = std::next(m.cbegin());
+			auto it = std::next(match.cbegin());
 			std::string key = *it;
 			it = std::next(it);
 			std::string value = *it;
-
-			// TODO: insert in map
-
+			l_.debug("query parameter identyfied " + key + ": " + value);
+			request.query_params.insert(std::pair<std::string, std::string>(key, value));
 			s = match.suffix();
 		}
 	}
@@ -71,8 +70,16 @@ namespace dynws
 	void RequestWrapper::ExecuteControllerAction(HttpRequest &request, HttpResponse &response, Router &router)
 	{
 		Controller *ctrl = router.ResolveController(request.uri);
-		ctrl->Action(request, response);
-		delete ctrl;
+		if (ctrl)
+		{
+				ctrl->Action(request, response);
+				delete ctrl;
+		}
+		else
+		{
+				response.status = "404 Not Found";
+				response.body = "{ message = \"resource not found\" }";
+		}
 	}
 
 	void RequestWrapper::Process(Socket &s, Router &router)
