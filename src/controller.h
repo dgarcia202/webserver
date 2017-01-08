@@ -68,6 +68,12 @@ namespace dynws
       response.status = "405 Method Not Allowed";
       response.body = R"({ "message" : "method not allowed" })"_json;
     }
+
+    virtual void Head(HttpRequest &request, HttpResponse &response)
+    {
+      response.status = "405 Method Not Allowed";
+      response.body = R"({ "message" : "method not allowed" })"_json;
+    }
   };
 
   class ControllerFactory

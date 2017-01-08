@@ -50,7 +50,7 @@ void CustomerController::Post(dynws::HttpRequest &request, dynws::HttpResponse &
 	if (!request.body.empty())
 	{
 		response.status = "200 OK";
-		response.headers["Content-Type"] = "application/text";
+		response.headers["Content-Length"] = std::to_string(666);
 		response.body["message"] = "Customer created with name " + request.body["name"].get<std::string>();
 	}
 	else

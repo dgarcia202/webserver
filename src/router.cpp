@@ -66,6 +66,10 @@ namespace dynws
 			{
 				ctrl->Copy(request, response);
 			}
+      else if (request.method == "HEAD")
+      {
+        ctrl->Head(request, response);
+      }
 			else
 			{
 				response.status = "400 Bad Request";
