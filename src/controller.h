@@ -39,8 +39,8 @@ namespace dynws
 
     virtual void Post(HttpRequest &request, HttpResponse &response)
     {
-      /*response.status = "405 Method Not Allowed";
-      response.body = "{ \"message\" : \"method not allowed\" }";*/
+      response.status = "405 Method Not Allowed";
+      response.body = "{ \"message\" : \"method not allowed\" }";
     }
 
     virtual void Put(HttpRequest &request, HttpResponse &response)
