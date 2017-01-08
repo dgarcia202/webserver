@@ -6,6 +6,8 @@
 
 #include "json/json.hpp"
 
+#define HTTP_GET "GET"
+
 namespace dynws
 {
   struct HttpRequest
