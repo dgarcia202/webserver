@@ -31,7 +31,41 @@ namespace dynws
   public:
     virtual ~Controller() { }
 
-    virtual void Action(HttpRequest&, HttpResponse&) = 0;
+    virtual void Get(HttpRequest &request, HttpResponse &response)
+    {
+      response.status = "405 Method Not Allowed";
+      response.body = "{ \"message\" : \"method not allowed\" }";
+    }
+
+    virtual void Post(HttpRequest &request, HttpResponse &response)
+    {
+      /*response.status = "405 Method Not Allowed";
+      response.body = "{ \"message\" : \"method not allowed\" }";*/
+    }
+
+    virtual void Put(HttpRequest &request, HttpResponse &response)
+    {
+      response.status = "405 Method Not Allowed";
+      response.body = "{ \"message\" : \"method not allowed\" }";
+    }
+
+    virtual void Patch(HttpRequest &request, HttpResponse &response)
+    {
+      response.status = "405 Method Not Allowed";
+      response.body = "{ \"message\" : \"method not allowed\" }";
+    }
+
+    virtual void Delete(HttpRequest &request, HttpResponse &response)
+    {
+      response.status = "405 Method Not Allowed";
+      response.body = "{ \"message\" : \"method not allowed\" }";
+    }
+
+    virtual void Copy(HttpRequest &request, HttpResponse &response)
+    {
+      response.status = "405 Method Not Allowed";
+      response.body = "{ \"message\" : \"method not allowed\" }";
+    }
   };
 
   class ControllerFactory

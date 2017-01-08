@@ -7,7 +7,8 @@
 class HomeController : public dynws::Controller
 {
 public:
-	void Action(dynws::HttpRequest&, dynws::HttpResponse&);
+	void Get(dynws::HttpRequest&, dynws::HttpResponse&);
+	void Post(dynws::HttpRequest&, dynws::HttpResponse&);
 };
 
 class HomeControllerFactory : public dynws::ControllerFactory
@@ -19,7 +20,7 @@ public:
 class QueryStringController : public dynws::Controller
 {
 public:
-	void Action(dynws::HttpRequest&, dynws::HttpResponse&);
+	void Get(dynws::HttpRequest&, dynws::HttpResponse&);
 };
 
 class QueryStringControllerFactory : public dynws::ControllerFactory

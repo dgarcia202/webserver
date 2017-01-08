@@ -5,7 +5,7 @@ dynws::Controller *HomeControllerFactory::CreateIntance()
 	return new HomeController();
 }
 
-void HomeController::Action(dynws::HttpRequest &request, dynws::HttpResponse &response)
+void HomeController::Get(dynws::HttpRequest &request, dynws::HttpResponse &response)
 {
 	response.status = "200 OK";
 	response.body = "<h1>Hello World!!</h1>"
@@ -40,7 +40,7 @@ dynws::Controller *QueryStringControllerFactory::CreateIntance()
 	return new QueryStringController();
 }
 
-void QueryStringController::Action(dynws::HttpRequest &request, dynws::HttpResponse &response)
+void QueryStringController::Get(dynws::HttpRequest &request, dynws::HttpResponse &response)
 {
 	response.body += "<h2>Query Params</h2>"
 						"<ul>";
