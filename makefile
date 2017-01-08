@@ -8,13 +8,11 @@ OBJECTS=$(patsubst %,$(ODIR)/%.o,$(MODULES))
 
 all: $(ODIR)\$(EXE)
 
-$(ODIR)\$(EXE): $(OBJECTS) $(SRCDIR)/main.cpp $(SRCDIR)/controller.h 
-	@echo Building $(ODIR)\$(EXE)
+$(ODIR)\$(EXE): $(OBJECTS) $(SRCDIR)/main.cpp $(SRCDIR)/controller.h
 	$(CC) $(CFLAGS) $(SRCDIR)/main.cpp $(OBJECTS) -o $(ODIR)\$(EXE) -lws2_32
 	@echo Build complete!!!
 
 $(OBJECTS): $(ODIR)/%.o: $(SRCDIR)/%.cpp $(SRCDIR)/%.h
-	@echo Building $@
 	@mkdir -p $(ODIR)
 	$(CC) -c $(CFLAGS) $< -o $@
 
