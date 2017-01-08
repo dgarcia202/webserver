@@ -97,6 +97,11 @@ namespace dynws
 			{
 				ctrl->Copy(request, response);
 			}
+			else
+			{
+				response.status = "400 Bad Request";
+				response.body = "{ \"message\" : \"illegal HTTP request method\" }";				
+			}
 			delete ctrl;
 		}
 		else
