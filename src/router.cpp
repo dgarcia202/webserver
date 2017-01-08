@@ -38,6 +38,12 @@ namespace dynws
 
   void Router::RouteRequest(HttpRequest &request, HttpResponse &response)
   {
+    if (request.host.empty()) {
+      response.status = "400 Bad Request";
+      response.body = R"({ "message" : "host request header not present" })"_json;
+      return;
+    }
+
     if (request.method == "GET" && !request.body.empty()) {
       response.status = "400 Bad Request";
       response.body = R"({ "message" : "GET requests are not allowed to have a body" })"_json;
