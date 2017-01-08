@@ -3,6 +3,8 @@
 
 #include "socket.h"
 
+#define JSON_DEFAULT_INDENT 3
+
 namespace dynws
 {
 	class RequestWrapper

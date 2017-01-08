@@ -28,4 +28,16 @@ public:
 	dynws::Controller *CreateIntance();
 };
 
+class CustomerController : public dynws::Controller
+{
+public:
+	void Post(dynws::HttpRequest&, dynws::HttpResponse&);
+};
+
+class CustomerControllerFactory : public dynws::ControllerFactory
+{
+public:
+	dynws::Controller *CreateIntance();
+};
+
 #endif

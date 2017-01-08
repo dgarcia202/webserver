@@ -8,30 +8,20 @@ dynws::Controller *HomeControllerFactory::CreateIntance()
 void HomeController::Get(dynws::HttpRequest &request, dynws::HttpResponse &response)
 {
 	response.status = "200 OK";
-	response.body = "<h1>Hello World!!</h1>"
-						"<ul>"
-						"<li><b>Method</b>: " + request.method + "</li>"
-						"<li><b>URI</b>: " + request.uri + "</li>"
-						"<li><b>HTTP Version</b>: " + request.http_version + "</li>"
-						"<li><b>Host</b>: " + request.host + "</li>"
-						"<li><b>Path</b>: " + request.path + "</li>"
-						"<li><b>Query string</b>: " + request.query_string + "</li>"
-						"</ul>";
+	response.body["requestData"]["method"] = request.method;
+	response.body["requestData"]["uri"] = request.uri;
+	response.body["requestData"]["httpVersion"] = request.http_version;
 
-	response.body += "<h2>Headers</h2>"
-						"<ul>";
+	response.body["requestData"]["host"] = request.host;
+	response.body["requestData"]["path"] = request.path;
+	response.body["requestData"]["query_string"] = request.query_string;
 
+	int count = 0;
 	for (auto it_headers = request.headers.begin(); it_headers != request.headers.end(); ++it_headers)
 	{
-		response.body += "<li>" + it_headers->first + ": " + it_headers->second + "</li>";
-	}
-
-	response.body += "</ul>";
-
-	if (!response.body.empty())
-	{
-		response.body += "<h2>Request content</h2>";
-		response.body += "<p>" + request.body + "</p>";
+		response.body["requestData"]["headers"][count]["key"] = it_headers->first;
+		response.body["requestData"]["headers"][count]["value"] = it_headers->second;
+		count++;
 	}
 }
 
@@ -42,12 +32,29 @@ dynws::Controller *QueryStringControllerFactory::CreateIntance()
 
 void QueryStringController::Get(dynws::HttpRequest &request, dynws::HttpResponse &response)
 {
-	response.body += "<h2>Query Params</h2>"
-						"<ul>";
-
+	response.status = "200 OK";
 	for (auto it_params = request.query_params.begin(); it_params != request.query_params.end(); ++it_params)
 	{
-		response.body += "<li>" + it_params->first + ": " + it_params->second + "</li>";
+		response.body["queryParams"][it_params->first] = it_params->second;
 	}
-	response.body += "</ul>";
+
+}
+
+dynws::Controller *CustomerControllerFactory::CreateIntance()
+{
+	return new CustomerController();
+}
+
+void CustomerController::Post(dynws::HttpRequest &request, dynws::HttpResponse &response)
+{
+	if (!request.body.empty())
+	{
+		response.status = "200 OK";
+		response.body["message"] = "Customer created with name " + request.body["name"].get<std::string>();
+	}
+	else
+	{
+		response.status = "400 Bad Request";
+		response.body["message"] = "No customer data provided";
+	}
 }

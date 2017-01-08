@@ -51,5 +51,8 @@ int main(int argc, char *argv[])
 	QueryStringControllerFactory query_string_ctrl_factory;
 	dynws::WebServer::router_.RegisterRoute("^\\/customers\\?id=(.*)$", &query_string_ctrl_factory);
 
+	CustomerControllerFactory customer_ctrl_factory;
+	dynws::WebServer::router_.RegisterRoute("^\\/customers$", &customer_ctrl_factory);
+
 	server.Start(port);
 }

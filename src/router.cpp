@@ -69,14 +69,14 @@ namespace dynws
 			else
 			{
 				response.status = "400 Bad Request";
-				response.body = "{ \"message\" : \"illegal HTTP request method\" }";
+				response.body = R"({ "message" : "illegal HTTP request method" })"_json;
 			}
 			delete ctrl;
 		}
 		else
 		{
 				response.status = "404 Not Found";
-				response.body = "{ \"message\" : \"resource not found\" }";
+				response.body = R"({ "message" : "resource not found" })"_json;
 		}
   }
 } // namespace dynws

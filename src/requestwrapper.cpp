@@ -5,6 +5,7 @@
 #include "socket.h"
 #include "logger.h"
 #include "stringtools.h"
+#include "json/json.hpp"
 
 namespace dynws
 {
@@ -60,13 +61,17 @@ namespace dynws
 
 	void RequestWrapper::TransmitResponse(Socket &s, const HttpResponse &response)
 	{
+		l_.debug("sending response");
 		s.SendBytes("HTTP/1.1 ");
 		s.SendLine(response.status);
-		s.SendLine("");
-		s.SendLine(response.body);
+		if (!response.body.empty())
+		{
+			s.SendLine("");
+			s.SendLine(response.body.dump(JSON_DEFAULT_INDENT));
+		}
 		s.Close();
 	}
-	
+
 	void RequestWrapper::Process(Socket &s, Router &router)
 	{
 		HttpRequest request;
@@ -74,6 +79,7 @@ namespace dynws
 
 		int lines_count = 0;
 		bool reading_body = false;
+		std::string body_accum;
 		while (true)
 		{
 			std::string line = reading_body ? s.ReceiveBytes() : s.ReceiveLine();
@@ -100,10 +106,16 @@ namespace dynws
 			}
 			else
 			{
-				request.body += line;
+				body_accum += line;
 			}
 
 			l_.debugBytes(STR(line));
+		}
+
+		if (!body_accum.empty())
+		{
+			l_.debug("parsing request body into JSON");
+			request.body = nlohmann::json::parse(body_accum);
 		}
 
 		router.RouteRequest(request, response);

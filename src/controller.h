@@ -4,6 +4,8 @@
 #include <string>
 #include <map>
 
+#include "json/json.hpp"
+
 namespace dynws
 {
   struct HttpRequest
@@ -16,14 +18,14 @@ namespace dynws
     std::string query_string;
     std::map<std::string, std::string> headers;
     std::multimap<std::string, std::string> query_params;
-    std::string body;
+    nlohmann::json body;
   };
 
   struct HttpResponse
   {
     std::string status;
     std::map<std::string, std::string> headers;
-    std::string body;
+    nlohmann::json body;
   };
 
   class Controller
@@ -34,37 +36,37 @@ namespace dynws
     virtual void Get(HttpRequest &request, HttpResponse &response)
     {
       response.status = "405 Method Not Allowed";
-      response.body = "{ \"message\" : \"method not allowed\" }";
+      response.body = R"({ "message" : "method not allowed" })"_json;
     }
 
     virtual void Post(HttpRequest &request, HttpResponse &response)
     {
       response.status = "405 Method Not Allowed";
-      response.body = "{ \"message\" : \"method not allowed\" }";
+      response.body = R"({ "message" : "method not allowed" })"_json;
     }
 
     virtual void Put(HttpRequest &request, HttpResponse &response)
     {
       response.status = "405 Method Not Allowed";
-      response.body = "{ \"message\" : \"method not allowed\" }";
+      response.body = R"({ "message" : "method not allowed" })"_json;
     }
 
     virtual void Patch(HttpRequest &request, HttpResponse &response)
     {
       response.status = "405 Method Not Allowed";
-      response.body = "{ \"message\" : \"method not allowed\" }";
+      response.body = R"({ "message" : "method not allowed" })"_json;
     }
 
     virtual void Delete(HttpRequest &request, HttpResponse &response)
     {
       response.status = "405 Method Not Allowed";
-      response.body = "{ \"message\" : \"method not allowed\" }";
+      response.body = R"({ "message" : "method not allowed" })"_json;
     }
 
     virtual void Copy(HttpRequest &request, HttpResponse &response)
     {
       response.status = "405 Method Not Allowed";
-      response.body = "{ \"message\" : \"method not allowed\" }";
+      response.body = R"({ "message" : "method not allowed" })"_json;
     }
   };
 
