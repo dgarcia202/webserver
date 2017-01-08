@@ -66,51 +66,7 @@ namespace dynws
 		s.SendLine(response.body);
 		s.Close();
 	}
-
-	void RequestWrapper::ExecuteControllerAction(HttpRequest &request, HttpResponse &response, Router &router)
-	{
-		Controller *ctrl = router.ResolveController(request.uri);
-		if (ctrl)
-		{
-			l_.debug("valid controller found. execution action " + request.method);
-			if(request.method == "GET")
-			{
-				ctrl->Get(request, response);
-			}
-			else if (request.method == "POST")
-			{
-				ctrl->Post(request, response);
-			}
-			else if (request.method == "PUT")
-			{
-				ctrl->Put(request, response);
-			}
-			else if (request.method == "PATCH")
-			{
-				ctrl->Patch(request, response);
-			}
-			else if (request.method == "DELETE")
-			{
-				ctrl->Delete(request, response);
-			}
-			else if (request.method == "COPY")
-			{
-				ctrl->Copy(request, response);
-			}
-			else
-			{
-				response.status = "400 Bad Request";
-				response.body = "{ \"message\" : \"illegal HTTP request method\" }";				
-			}
-			delete ctrl;
-		}
-		else
-		{
-				response.status = "404 Not Found";
-				response.body = "{ \"message\" : \"resource not found\" }";
-		}
-	}
-
+	
 	void RequestWrapper::Process(Socket &s, Router &router)
 	{
 		HttpRequest request;
@@ -150,7 +106,7 @@ namespace dynws
 			l_.debugBytes(STR(line));
 		}
 
-		ExecuteControllerAction(request, response, router);
+		router.RouteRequest(request, response);
 		TransmitResponse(s, response);
 	}
 

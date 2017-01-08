@@ -15,7 +15,6 @@ namespace dynws
 			void ParseRequestHeadLine(HttpRequest&, const std::string);
 			void ParseHeader(HttpRequest&, const std::string);
 			void ParseQueryString(HttpRequest&, const std::string);
-			void ExecuteControllerAction(HttpRequest&, HttpResponse&, Router&);
 			void TransmitResponse(Socket&, const HttpResponse&);
 	};
 
