@@ -59,15 +59,40 @@ namespace dynws
 		}
 	}
 
-	void RequestWrapper::TransmitResponse(Socket &s, const HttpResponse &response)
+	void RequestWrapper::SetResponseContentHeaders(HttpResponse &response, std::size_t length)
 	{
+		auto search_type = response.headers.find("Content-Type");
+		if (search_type == response.headers.end())
+		{
+				response.headers.insert(std::pair<std::string, std::string>("Content-Type", "application/json"));
+		}
+
+		auto search_length = response.headers.find("Content-Length");
+		if (search_length != response.headers.end())
+		{
+			response.headers.erase(search_length);
+		}
+		response.headers.insert(std::pair<std::string, std::string>("Content-Length", std::to_string(length)));
+	}
+
+	void RequestWrapper::TransmitResponse(Socket &s, HttpResponse &response)
+	{
+		std::string response_body = response.body.dump(JSON_DEFAULT_INDENT);
+		SetResponseContentHeaders(response, response_body.size() + 1);	// plus one for the end of line
+
 		l_.debug("sending response");
 		s.SendBytes("HTTP/1.1 ");
 		s.SendLine(response.status);
+
+		for (auto it_headers = response.headers.cbegin(); it_headers != response.headers.cend(); ++it_headers)
+		{
+			s.SendLine(it_headers->first + ": " + it_headers->second);
+		}
+
 		if (!response.body.empty())
 		{
 			s.SendLine("");
-			s.SendLine(response.body.dump(JSON_DEFAULT_INDENT));
+			s.SendLine(response_body);
 		}
 		s.Close();
 	}
